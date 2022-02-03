@@ -28,6 +28,24 @@ class LinkedList:
             temp_node = temp_node.next
         return i
 
+    def min(self):
+        last_node = self.head
+        min_temp = last_node.data
+        while last_node.next != None:
+            last_node = last_node.next
+            if min_temp > last_node.data:
+                 min_temp = last_node.data
+        return min_temp
+
+    def max(self):
+        last_node = self.head
+        max_temp = last_node.data
+        while last_node.next != None:
+            last_node = last_node.next
+            if max_temp < last_node.data:
+                 max_temp = last_node.data
+        return max_temp
+
     def bubble_sort(self):
         if self.head:
             current = None

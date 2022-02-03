@@ -8,10 +8,14 @@ if __name__ == '__main__':
     for i in range(10):
         linked_list.insert(Node(randint(1, 100)))
 
-linked_list.display()
-print(linked_list.length())
+    print("Unsortierte Liste:")
+    linked_list.display()
 
-linked_list.bubble_sort()
-linked_list.display()
-print(linked_list.length())
+    print("Sortierte Liste:")
+    linked_list.bubble_sort()
+    linked_list.display()
+
+    print("Länge der Liste: "+str(linked_list.length()))
+    print("Kleinster Wert: "+ str(linked_list.min()))
+    print("Größter Wert: "+ str(linked_list.max()))
 
