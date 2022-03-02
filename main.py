@@ -6,13 +6,14 @@ if __name__ == '__main__':
     linked_list = LinkedList()
 
     for i in range(10):
-        linked_list.insert(Node(randint(1, 100)))
+        linked_list.insert(Node(randint(1, 10)))
+
 
     print("Unsortierte Liste:")
     linked_list.display()
 
     print("Sortierte Liste:")
-    linked_list.bubble_sort()
+    linked_list.insertionSort()
     linked_list.display()
 
     print("Länge der Liste: "+str(linked_list.length()))
