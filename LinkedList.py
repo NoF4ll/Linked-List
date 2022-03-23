@@ -1,135 +1,174 @@
-from Node import Node
-
+def swapData(first, second):
+    value = first.data
+    first.data = second.data
+    second.data = value
 
 class LinkedList:
-
     def __init__(self):
         self.head = None
 
-    def insert(self, new_node) -> object:
+    def insert(self, new_node):
         if self.head:
             last_node = self.head
-            while last_node.next != None:
+            while last_node.next is not None:
                 last_node = last_node.next
+            new_node.prev = last_node
             last_node.next = new_node
 
         else:
             self.head = new_node
 
-    def delete(self, key):
-        temp = self.head
-        if (temp is not None):
-            if (temp.data == key):
-                self.head = temp.next
-                temp = None
-                return
-        while (temp is not None):
-            if temp.data == key:
-                break
-            prev = temp
-            temp = temp.next
-
-        if (temp == None):
-            return
-        prev.next = temp.next
-        temp = None
-
     def display(self):
         temp_node = self.head
         while temp_node:
-            print(temp_node.data, end='->')
+            print(temp_node.data, end=',')
             temp_node = temp_node.next
-        print('Null')
+        print('')
 
     def length(self):
         temp_node = self.head
-        i = 0
+        k = 0
         while temp_node:
-            i = i + 1
+            k += 1
             temp_node = temp_node.next
-        return i
+        return k
+
+    def __repr__(self):
+        node = self.head
+        nodes = []
+        while node is not None:
+            nodes.append(node.data)
+            node = node.next
+        nodes.append("None")
+        return " -> ".join(nodes)
+
+    def find(self, j):
+        place = 0
+        found = False
+        number_found = 0
+        node = self.head
+        while node:
+            if j == node.data:
+                print(str(j) + " befindet sich auf der Stelle " + str(place) +" (startet mit 0)")
+                found = True
+                number_found += 1
+            place += 1
+            node = node.next
+        if found:
+            print(str(j) + " wurde insgesamt " + str(number_found) + " mal gefunden")
+        else:
+            print(str(j) + " ist nicht in der Liste")
 
     def min(self):
-        last_node = self.head
-        min_temp = last_node.data
-        while last_node.next != None:
-            last_node = last_node.next
-            if min_temp > last_node.data:
-                 min_temp = last_node.data
-        return min_temp
+        node = self.head
+        min = node.data
+        while node:
+            if node.data < min:
+                min = node.data
+            node = node.next
+        print(str(min) + " ist die kleinste Zahl in der Liste")
 
     def max(self):
-        last_node = self.head
-        max_temp = last_node.data
-        while last_node.next != None:
-            last_node = last_node.next
-            if max_temp < last_node.data:
-                 max_temp = last_node.data
-        return max_temp
+        node = self.head
+        max = node.data
+        while node:
+            if node.data > max:
+                max = node.data
+            node = node.next
+        print(str(max) + " ist die größte Zahl in der Liste")
 
-    def bubble_sort(self):
-        if self.head:
-            current = None
-            status = 1
-            while status == 1:
-                status = 0
-                current = self.head
-                while current and current.next:
+    def insert_after(self,value,after):
+        found = False
+        node = self.head
+        while node:
+            if after == node.data:
+                found = True
+                temp_prev = node
+                temp_next = node.next
+                node.next = value
+                node = node.next
+                node.prev = temp_prev
+                node.next = temp_next
+                node = node.next
+                node.prev = value
+                break
+            node = node.next
+        if not found:
+            print(str(after) + " ist nicht in der Liste")
 
-                    if current.data > current.next.data:
-                        current.data = current.data + current.next.data
+    def insert_before(self, value, before):
+        found = False
+        node = self.head
+        while node:
+            if before == node.data:
+                found = True
+                temp_next = node
+                temp_prev = node.prev
+                node.prev = value
+                node = node.prev
+                node.next = temp_next
+                node.prev = temp_prev
+                node = node.prev
+                node.next = value
+                break
+            node = node.next
+        if not found:
+            print(str(before) + " ist nicht in der Liste")
 
-                        current.next.data = current.data - current.next.data
+    def delete_after(self, after):
+        found = False
+        node = self.head
+        while node:
+            if after == node.data:
+                found = True
+                if node.next is None:
+                    print(str(after) + " ist schon das letzte Element")
+                    break
+                if node.next.next is not None:
+                    node.next = node.next.next
+                    node.next.next.prev = node
+                    break
+                node.next = None
+            node = node.next
+        if not found:
+            print(str(after) + " ist nicht in der Liste")
 
-                        current.data = current.data - current.next.data
-                        status = 1
-
-                    current = current.next
-
-        else:
-            print("Empty Linked list")
-
-    def insertionSort(self):
-
-        # Initialize sorted linked list
-        sorted = None
-
-        # Traverse the given linked list and insert every
-        # node to sorted
-        current = self.head
-        while (current != None):
-            # Store next for next iteration
-            next = current.next
-
-            # insert current in sorted linked list
-            sorted = sortedInsert(sorted, current)
-
-            # Update current
-            current = next
-
-        # Update head_ref to point to sorted linked list
-        head_ref = sorted
-        return head_ref
+    def delete_before(self, before):
+        found = False
+        node = self.head
+        while node:
+            if before == node.data:
+                found = True
+                if node.prev is None:
+                    print(str(before) + " ist schon das erste Element")
+                    break
+                if node.prev.prev is not None:
+                    node.prev = node.prev.prev
+                    node.prev.next = node
+                    break
+                node.prev = None
+            node = node.next
+        if not found:
+            print(str(before) + " ist nicht in der Liste")
 
 
-def sortedInsert(head_ref, new_node):
-    current = None
 
-    # Special case for the head end */
-    if (head_ref == None or (head_ref).data >= new_node.data):
+    def sortASC(self):
+        front = self.head
+        back = None
+        while front is not None:
+            back = front.next
+            while back is not None and back.prev is not None and back.data < back.prev.data:
+                swapData(back, back.prev)
+                back = back.prev
+            front = front.next
 
-        new_node.next = head_ref
-        head_ref = new_node
-
-    else:
-
-        # Locate the node before the point of insertion
-        current = head_ref
-        while (current.next != None and
-               current.next.data < new_node.data):
-            current = current.next
-
-        new_node.next = current.next
-        current.next = new_node
-
-    return head_ref
+    def sortDESC(self):
+        front = self.head
+        back = None
+        while front is not None:
+            back = front.next
+            while back is not None and back.prev is not None and back.data > back.prev.data:
+                swapData(back, back.prev)
+                back = back.prev
+            front = front.next
